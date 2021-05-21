@@ -1,4 +1,4 @@
-package com.example.actuatorservice;
+package com.mtapps.npcservice;
 
 import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;

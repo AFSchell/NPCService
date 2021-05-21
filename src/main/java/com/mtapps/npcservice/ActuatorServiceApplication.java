@@ -1,4 +1,4 @@
-package com.example.actuatorservice;
+package com.mtapps.npcservice;
 
 import java.util.Arrays;
 

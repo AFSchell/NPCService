@@ -1,4 +1,4 @@
-package com.example.actuatorservice;
+package com.mtapps.npcservice;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 

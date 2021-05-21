@@ -1,4 +1,4 @@
-package com.example.actuatorservice;
+package com.mtapps.npcservice;
 
 public class Greeting {
 
