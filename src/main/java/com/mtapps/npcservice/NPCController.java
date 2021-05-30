@@ -36,27 +36,6 @@ public class NPCController {
 	@Autowired
 	private MongoClient mongoClient;
 
-	/*
-	 * public NPCData getNPCNew(@RequestParam(name = "name", required = false,
-	 * defaultValue = "Stranger") String name) {
-	 * 
-	 * NPCData npc = null;
-	 * 
-	 * MongoOperations mongoOps = new MongoTemplate(MongoClients.create(), "TFT");
-	 * NPCData newNPC = new NPCData(); newNPC.setName("Granite");
-	 * newNPC.setST("15"); mongoOps.insert(newNPC);
-	 * 
-	 * npc = mongoOps.findOne(new Query(where("name").is("Granite")),
-	 * NPCData.class);
-	 * 
-	 * System.out.println("npc --> " + npc); System.out.println("got one " +
-	 * npc.getName()); System.out.println("st --> " + npc.getST());
-	 * System.out.println("dx --> " + npc.getDX()); System.out.println("iq --> " +
-	 * npc.getIQ()); System.out.println("ma --> " + npc.getMA());
-	 * 
-	 * return npc; }
-	 */
-
 	@GetMapping(value = "/getNPC", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ServiceResponse<ArrayList<NPCData>> getNPC(@RequestParam(name = "name", required = false, defaultValue = "*") String name) {
@@ -72,11 +51,10 @@ public class NPCController {
 			if( !name.equals("*") ) {
 				qry = new Query(where("name").is( name ));
 			}
-			qry.fields().include("name", "ST", "DX", "IQ", "MA").exclude("_id", "id");
+			qry.fields().include("name", "ST", "DX", "IQ", "MA").exclude("_id");
 			
 			npcs = (ArrayList<NPCData>) mongoOps.find( qry, NPCData.class, "NPC" );
-			
-			System.out.println(" using new service response " );
+			/*
 			for (NPCData npc : npcs) {
 				System.out.println("npc --> " + npc);
 				System.out.println("got one " + npc.getName());
@@ -85,12 +63,13 @@ public class NPCController {
 				System.out.println("iq --> " + npc.getIQ());
 				System.out.println("ma --> " + npc.getMA());
 			}
+			*/
 			resp.setData( npcs );
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-
+		
 		return resp;
 	}
 	
@@ -99,7 +78,7 @@ public class NPCController {
 	public ArrayList<NPCName> getNPCNames(HttpServletResponse resp) {
 
 		ArrayList<NPCName> names = new ArrayList<NPCName>();
-		System.out.println( "running with cors allowed -- addHeader");
+
 		resp.setHeader("Content-Type", "application/text");
 		resp.setHeader("Access-Control-Allow-Origin", "*");
 		
@@ -110,10 +89,11 @@ public class NPCController {
 			
 			names = (ArrayList<NPCName>) mongoOps.find( qry, NPCName.class, "NPC" );
 			
+			/*
 			for (NPCName name : names) {
 				System.out.println("name --> " + name.getName());
 			}
-
+			*/
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

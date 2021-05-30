@@ -19,28 +19,18 @@ public class NPCData {
 	  
 	  public NPCData() {
 		  // Eventually hit the database here for the named NPC's data
-		  System.out.println( "in generic ctor" );
-		  
 	  }
 	  
-//	  public NPCData( Document doc ) {
-//		  populate( doc );
-//	  }
-	  
-	  public NPCData( ObjectId id, String name, String ST, String DX, String IQ, String MA ) {
-		  this.name = name;
-//		  // Eventually hit the database here for the named NPC's data
-		  System.out.println( "in detail ctor");
-//		  this.id = id;
-		  this.ST = ST;
-		  this.DX = DX;
-//		  this.DX = new Integer(DX).intValue();
-//		  this.IQ = new Integer(IQ).intValue();
-//		  this.MA = new Integer(MA).intValue();
-		  
-	  }
-	  
-//	  private void populate( Document doc ) {
+		/*
+		 * public NPCData( ObjectId id, String name, String ST, String DX, String IQ,
+		 * String MA ) { this.name = name; System.out.println( "in detail ctor"); //
+		 * this.id = id; this.ST = ST; this.DX = DX; // this.DX = new
+		 * Integer(DX).intValue(); // this.IQ = new Integer(IQ).intValue(); // this.MA =
+		 * new Integer(MA).intValue();
+		 * 
+		 * }
+		 * 
+		 *///	  private void populate( Document doc ) {
 //		  
 //		  this.name = (String) doc.get( "name" );
 //		  System.out.println( "in nPC --> name = " + doc.get( "name" ) );
