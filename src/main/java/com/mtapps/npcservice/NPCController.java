@@ -24,6 +24,8 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoIterable;
 
+import com.mtapps.service.ServiceResponse;
+
 @Controller
 @CrossOrigin
 public class NPCController {
@@ -57,11 +59,12 @@ public class NPCController {
 
 	@GetMapping(value = "/getNPC", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ArrayList<NPCData> getNPC(@RequestParam(name = "name", required = false, defaultValue = "*") String name) {
+	public ServiceResponse<ArrayList<NPCData>> getNPC(@RequestParam(name = "name", required = false, defaultValue = "*") String name) {
 
 		ArrayList<NPCData> npcs = null;
 		// MongoClient mongoClient;
 
+		ServiceResponse<ArrayList<NPCData>> resp = new ServiceResponse(npcs, "");
 		try {
 
 			MongoOperations mongoOps = new MongoTemplate( mongoClient, "TFT");
@@ -69,9 +72,11 @@ public class NPCController {
 			if( !name.equals("*") ) {
 				qry = new Query(where("name").is( name ));
 			}
+			qry.fields().include("name", "ST", "DX", "IQ", "MA").exclude("_id", "id");
 			
 			npcs = (ArrayList<NPCData>) mongoOps.find( qry, NPCData.class, "NPC" );
-
+			
+			System.out.println(" using new service response " );
 			for (NPCData npc : npcs) {
 				System.out.println("npc --> " + npc);
 				System.out.println("got one " + npc.getName());
@@ -80,12 +85,13 @@ public class NPCController {
 				System.out.println("iq --> " + npc.getIQ());
 				System.out.println("ma --> " + npc.getMA());
 			}
-
+			resp.setData( npcs );
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 
-		return npcs;
+		return resp;
 	}
 	
 	@GetMapping(value = "/getNPCNames", produces = MediaType.APPLICATION_JSON_VALUE)
