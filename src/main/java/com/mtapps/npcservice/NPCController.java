@@ -74,21 +74,29 @@ public class NPCController {
 	}
 	
 	@GetMapping(value = "/getNPCNames", produces = MediaType.APPLICATION_JSON_VALUE)
+	@CrossOrigin(origins = "*")
 	@ResponseBody
-	public ArrayList<NPCName> getNPCNames(HttpServletResponse resp) {
+	public ServiceResponse<NPCName[]> getNPCNames(/* HttpServletResponse resp */) {
 
-		ArrayList<NPCName> names = new ArrayList<NPCName>();
 
-		resp.setHeader("Content-Type", "application/text");
-		resp.setHeader("Access-Control-Allow-Origin", "*");
+		ArrayList<NPCName> rawNames = new ArrayList<NPCName>();
+		ArrayList<NPCName> returnValue = new ArrayList<NPCName>();
+		
+//		resp.setHeader("Content-Type", "application/text");
+//		resp.setHeader("Access-Control-Allow-Origin", "*");
 		
 		try {
 			MongoOperations mongoOps = new MongoTemplate( mongoClient, "TFT");
 			Query qry = new Query();
 			qry.fields().include("name").exclude("_id");
 			
-			names = (ArrayList<NPCName>) mongoOps.find( qry, NPCName.class, "NPC" );
-			
+			rawNames = (ArrayList<NPCName>) mongoOps.find( qry, NPCName.class, "NPC" );
+			/*
+			for( int i = 0; i < rawNames.size(); i++ ) {
+				returnValue.add( ) = rawNames.get(i);
+			}
+			*/
+
 			/*
 			for (NPCName name : names) {
 				System.out.println("name --> " + name.getName());
@@ -97,8 +105,11 @@ public class NPCController {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		
+		ServiceResponse<NPCName[]> respBody = new ServiceResponse(rawNames.toArray(), "");
 
-		return names;
+
+		return respBody;
 	}
 
 	@GetMapping(value = "/getDB", produces = MediaType.APPLICATION_JSON_VALUE)
