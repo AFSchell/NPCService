@@ -34,6 +34,7 @@ public class NPCController {
 	private MongoClient mongoClient;
 
 	@GetMapping(value = "/getNPC", produces = MediaType.APPLICATION_JSON_VALUE)
+	@CrossOrigin(origins = "*")
 	@ResponseBody
 	public ServiceResponse<ArrayList<NPCData>> getNPC(@RequestParam(name = "name", required = false, defaultValue = "*") String name) {
 
@@ -73,11 +74,10 @@ public class NPCController {
 	@GetMapping(value = "/getNPCNames", produces = MediaType.APPLICATION_JSON_VALUE)
 	@CrossOrigin(origins = "*")
 	@ResponseBody
-	public ServiceResponse<NPCName[]> getNPCNames() {
+	public ServiceResponse<ArrayList<NPCName>> getNPCNames() {
 
 
 		ArrayList<NPCName> rawNames = new ArrayList<NPCName>();
-		ArrayList<NPCName> returnValue = new ArrayList<NPCName>();
 		
 		try {
 			MongoOperations mongoOps = new MongoTemplate( mongoClient, "TFT");
@@ -90,7 +90,7 @@ public class NPCController {
 			ex.printStackTrace();
 		}
 		
-		ServiceResponse<NPCName[]> respBody = new ServiceResponse(rawNames.toArray(), "");
+		ServiceResponse<ArrayList<NPCName>> respBody = new ServiceResponse(rawNames.toArray(), "");
 
 		return respBody;
 	}
